@@ -10,7 +10,7 @@ module.exports = async function (fastify, opts) {
     const newUser = await fastify.prisma.user.create({
       data: {
         email: request.body.email,
-        displayName: request.body.displayName,
+        display_name: request.body.displayName,
         password: request.body.password
       }
     })
