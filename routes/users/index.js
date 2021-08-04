@@ -1,0 +1,19 @@
+"use strict"
+
+module.exports = async function (fastify, opts) {
+  fastify.get("/", async function(request, reply) {
+    return fastify.prisma.user.findMany()
+  })
+
+  fastify.post("/", async function(request, reply) {
+    console.log(request.body)
+    const newUser = await fastify.prisma.user.create({
+      data: {
+        email: request.body.email,
+        displayName: request.body.displayName,
+        password: request.body.password
+      }
+    })
+    return newUser
+  })
+}
