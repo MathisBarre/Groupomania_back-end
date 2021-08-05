@@ -6,7 +6,6 @@ module.exports = async function (fastify, opts) {
   })
 
   fastify.post("/", async function(request, reply) {
-    console.log(request.body)
     const newUser = await fastify.prisma.user.create({
       data: {
         email: request.body.email,
