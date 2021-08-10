@@ -1,12 +1,25 @@
 "use strict"
 
+const dayjs = require("dayjs")
+require("dayjs/locale/fr")
+
 module.exports = async function (fastify, opts) {
-  fastify.get("/", async function(request, reply) {
-    const allPublication = await fastify.prisma.publication.findMany({
+  fastify.get("/" , async function(request, reply) {
+    console.log(request.user)
+    let allPublication = await fastify.prisma.publication.findMany({
+      orderBy: [
+        { id: "desc" }
+      ],
       include: {
         user: true
       }
     })
+
+    allPublication = allPublication.map((publication) => {
+      publication.date_creation_fr = dayjs(publication.date_creation).locale("fr").format("DD MMMM YYYY [à] HH:mm")
+      return publication
+    })
+
     return allPublication
   })
 
