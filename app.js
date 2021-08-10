@@ -9,6 +9,8 @@ module.exports = async function (fastify, opts) {
     origin: true
   })
 
+  fastify.register(require("fastify-cookie"))
+
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
