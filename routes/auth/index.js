@@ -16,7 +16,7 @@ module.exports = async function (fastify, opts) {
 
       const token = await reply.jwtSign({ role: user.role })
     
-      if (user.password !== password) throw fastify.httpErrors.unauthorized("Incorrect password")
+      if (!bcrypt.compareSync(password, user.password)) throw fastify.httpErrors.unauthorized("Incorrect password")
 
       reply
         .setCookie("token", token, {
