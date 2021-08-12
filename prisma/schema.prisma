@@ -8,22 +8,28 @@ datasource db {
 }
 
 model publication {
-  id            Int      @id @default(autoincrement())
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
   title         String?  @db.VarChar(255)
   image_url     String   @db.VarChar(510)
-  author_id     Int
+  author_id     Int      @db.UnsignedInt
   date_creation DateTime @default(now()) @db.DateTime(0)
   date_update   DateTime @default(now()) @db.DateTime(0)
   user          user     @relation(fields: [author_id], references: [id])
 
-  @@index([author_id], name: "author_id")
+  @@index([author_id], name: "FK_AUTHORID")
 }
 
 model user {
-  id               Int           @id @default(autoincrement())
+  id               Int           @id @default(autoincrement()) @db.UnsignedInt
   display_name     String        @unique @db.VarChar(255)
   email            String        @unique @db.VarChar(255)
   password         String        @db.VarChar(255)
   profil_image_url String?       @db.VarChar(510)
+  role             user_role     @default(user)
   publication      publication[]
+}
+
+enum user_role {
+  admin
+  user
 }

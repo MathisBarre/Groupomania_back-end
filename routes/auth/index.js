@@ -8,12 +8,14 @@ module.exports = async function (fastify, opts) {
     })
   
     reply
-      .setCookie('token', token)
+      .setCookie('token', token, {
+        domain: 'localhost',
+        path: '/',
+        secure: true, // send cookie over HTTPS only
+        httpOnly: true,
+        sameSite: true // alternative CSRF protection
+      })
       .code(200)
       .send('Cookie sent')
-  })
-
-  fastify.get('/verifycookie', { preValidation: [fastify.authenticate] } ,(request, reply) => {
-    reply.send({ code: 'OK', message: 'it works!' })
   })
 }
