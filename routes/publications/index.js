@@ -5,7 +5,6 @@ require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
   fastify.get("/", { preValidation: [fastify.authenticate] }, async function getAllPublications(request, reply) {
-    console.log(request.user)
     let allPublication = await fastify.prisma.publication.findMany({
       orderBy: [
         { id: "desc" }
