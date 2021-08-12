@@ -27,9 +27,10 @@ module.exports = async function (fastify, opts) {
       data: {
         title: request.body.title,
         image_url: request.body.imageUrl,
-        author_id: request.body.authorId
+        author_id: request.user.userId
       }
     })
+
     return newUser
   })
 }
