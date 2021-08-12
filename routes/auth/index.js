@@ -1,5 +1,7 @@
 "use strict"
 
+const bcrypt = require("bcrypt")
+
 module.exports = async function (fastify, opts) {
   fastify.post("/login", async function(request, reply) {
       const { email, password } = request.body

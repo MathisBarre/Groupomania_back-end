@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^2.29.0",
+    "bcrypt": "^5.0.1",
     "dayjs": "^1.10.6",
     "fastify": "^3.0.0",
     "fastify-autoload": "^3.3.1",
