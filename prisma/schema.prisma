@@ -20,13 +20,13 @@ model publication {
 }
 
 model user {
-  id               Int           @id @default(autoincrement()) @db.UnsignedInt
-  display_name     String        @unique @db.VarChar(255)
-  email            String        @unique @db.VarChar(255)
-  password         String        @db.VarChar(255)
-  profil_image_url String?       @db.VarChar(510)
-  role             user_role     @default(user)
-  publication      publication[]
+  id                Int           @id @default(autoincrement()) @db.UnsignedInt
+  display_name      String        @unique @db.VarChar(255)
+  email             String        @unique @db.VarChar(255)
+  password          String        @db.VarChar(255)
+  profile_image_url String?       @db.VarChar(510)
+  role              user_role     @default(user)
+  publication       publication[]
 }
 
 enum user_role {
