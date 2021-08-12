@@ -21,7 +21,7 @@ module.exports = async function (fastify, opts) {
       }
     })
 
-    const token = await reply.jwtSign({ role: newUser.role })
+    const token = await reply.jwtSign({ role: newUser.role, userId: newUser.id })
 
     reply
       .setCookie("token", token, {

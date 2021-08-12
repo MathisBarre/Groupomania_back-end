@@ -14,7 +14,7 @@ module.exports = async function (fastify, opts) {
 
       if (!user) throw fastify.httpErrors.unauthorized("User not found")
 
-      const token = await reply.jwtSign({ role: user.role })
+      const token = await reply.jwtSign({ role: user.role, userId: user.id })
     
       if (!bcrypt.compareSync(password, user.password)) throw fastify.httpErrors.unauthorized("Incorrect password")
 
