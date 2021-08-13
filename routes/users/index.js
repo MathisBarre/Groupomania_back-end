@@ -5,7 +5,7 @@ const dayjs = require("dayjs")
 require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/", async function getAllUsers(request, reply) {
+  fastify.get("/", { preValidation: [fastify.authenticate] }, async function getAllUsers(request, reply) {
     let users = await fastify.prisma.user.findMany()
 
     users = users.map((user) => {
@@ -16,7 +16,7 @@ module.exports = async function (fastify, opts) {
     return users
   })
 
-  fastify.get("/:userId", async function getOneUser(request, reply) {
+  fastify.get("/:userId", { preValidation: [fastify.authenticate] }, async function getOneUser(request, reply) {
     const requestUserId = parseInt(request.params.userId, 10)
     const trueUserId = parseInt(fastify.jwt.decode(request.cookies.token).userId, 10)
 
