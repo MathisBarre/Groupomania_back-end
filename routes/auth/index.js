@@ -27,6 +27,7 @@ module.exports = async function (fastify, opts) {
           sameSite: true // alternative CSRF protection
         })
         .setCookie("connectedUser", JSON.stringify({
+          id: user.id,
           displayName: user.display_name,
           email: user.email,
           role: user.role,
@@ -40,6 +41,7 @@ module.exports = async function (fastify, opts) {
         })
         .code(200)
         .send({
+          id: user.id,
           displayName: user.display_name,
           email: user.email,
           role: user.role,
