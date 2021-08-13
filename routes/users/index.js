@@ -16,6 +16,24 @@ module.exports = async function (fastify, opts) {
     return users
   })
 
+  fastify.get("/:userId", async function getOneUser(request, reply) {
+    const requestUserId = parseInt(request.params.userId, 10)
+    const trueUserId = parseInt(fastify.jwt.decode(request.cookies.token).userId, 10)
+
+    if ( requestUserId !== trueUserId ) throw fastify.httpErrors.unauthorized()
+
+    let user = await fastify.prisma.user.findUnique({
+      where: {
+        id: requestUserId
+      }
+    })
+
+    return {
+      displayName: user.display_name,
+      email: user.email,
+    }
+  })
+
   fastify.post("/", async function createOneUser(request, reply) {
     const { email, display_name, password } = request.body
 
@@ -41,6 +59,7 @@ module.exports = async function (fastify, opts) {
         sameSite: true // alternative CSRF protection
       })
       .setCookie("connectedUser", JSON.stringify({
+        id: newUser.id,
         displayName: newUser.display_name,
         email: newUser.email,
         role: newUser.role,
@@ -54,6 +73,7 @@ module.exports = async function (fastify, opts) {
       })
       .code(200)
       .send({
+        id: newUser.id,
         displayName: newUser.display_name,
         email: newUser.email,
         role: newUser.role,
