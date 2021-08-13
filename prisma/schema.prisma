@@ -26,6 +26,8 @@ model user {
   password          String        @db.VarChar(255)
   profile_image_url String?       @db.VarChar(510)
   role              user_role     @default(user)
+  date_creation     DateTime      @default(now()) @db.DateTime(0)
+  date_update       DateTime      @default(now()) @db.DateTime(0)
   publication       publication[]
 }
 

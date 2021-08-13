@@ -1,10 +1,19 @@
 "use strict"
 
 const bcrypt = require("bcrypt")
+const dayjs = require("dayjs")
+require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
   fastify.get("/", async function getAllUsers(request, reply) {
-    return fastify.prisma.user.findMany()
+    let users = await fastify.prisma.user.findMany()
+
+    users = users.map((user) => {
+      user.date_creation_fr = dayjs(user.date_creation).locale("fr").format("DD MMMM YYYY - HH:mm")
+      return user
+    })
+
+    return users
   })
 
   fastify.post("/", async function createOneUser(request, reply) {
