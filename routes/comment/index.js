@@ -5,9 +5,10 @@ require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
   fastify.get("/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
+    
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({
       where : {
-        publication_id: 14
+        publication_id: parseInt(request.params.publicationId, 10)
       },
       select: {
         id: true,
