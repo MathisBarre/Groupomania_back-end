@@ -8,13 +8,14 @@ datasource db {
 }
 
 model publication {
-  id            Int      @id @default(autoincrement()) @db.UnsignedInt
-  title         String?  @db.VarChar(255)
-  image_url     String   @db.VarChar(510)
-  author_id     Int      @db.UnsignedInt
-  date_creation DateTime @default(now()) @db.DateTime(0)
-  date_update   DateTime @default(now()) @db.DateTime(0)
-  user          user     @relation(fields: [author_id], references: [id])
+  id            Int       @id @default(autoincrement()) @db.UnsignedInt
+  title         String?   @db.VarChar(255)
+  image_url     String    @db.VarChar(510)
+  author_id     Int       @db.UnsignedInt
+  date_creation DateTime  @default(now()) @db.DateTime(0)
+  date_update   DateTime  @default(now()) @db.DateTime(0)
+  user          user      @relation(fields: [author_id], references: [id])
+  comment       comment[]
 
   @@index([author_id], name: "FK_AUTHORID")
 }
@@ -28,7 +29,22 @@ model user {
   role              user_role     @default(user)
   date_creation     DateTime      @default(now()) @db.DateTime(0)
   date_update       DateTime      @default(now()) @db.DateTime(0)
+  comment           comment[]
   publication       publication[]
+}
+
+model comment {
+  id             Int         @id @default(autoincrement()) @db.UnsignedInt
+  content        String      @db.VarChar(510)
+  publication_id Int         @db.UnsignedInt
+  author_id      Int         @db.UnsignedInt
+  date_creation  DateTime    @default(now()) @db.DateTime(0)
+  date_update    DateTime    @default(now()) @db.DateTime(0)
+  user           user        @relation(fields: [author_id], references: [id])
+  publication    publication @relation(fields: [publication_id], references: [id])
+
+  @@index([publication_id], name: "FK1_PUBLICATIONID")
+  @@index([author_id], name: "FK2_AUTHORID")
 }
 
 enum user_role {
