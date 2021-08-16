@@ -10,7 +10,10 @@ module.exports = async function (fastify, opts) {
         { id: "desc" }
       ],
       include: {
-        user: true
+        user: true,
+        _count: {
+          select: { comment: true },
+        },
       }
     })
 
