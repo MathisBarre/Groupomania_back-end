@@ -34,4 +34,16 @@ module.exports = async function (fastify, opts) {
 
     return allCommentsFromOnePublication
   })
+
+  fastify.post("/", { preValidation: [fastify.authenticate] }, async function createOneComment(request, reply) {
+    const newComment = await fastify.prisma.comment.create({
+      data: {
+        content: request.body.comment,
+        publication_id: request.body.publicationId,
+        author_id: fastify.jwt.decode(request.cookies.token).userId
+      }
+    })
+
+    return newComment
+  })
 }
