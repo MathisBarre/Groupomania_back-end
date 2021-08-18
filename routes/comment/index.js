@@ -23,7 +23,7 @@ module.exports = async function (fastify, opts) {
         }
       },
       orderBy: [
-        { id: "desc" }
+        { id: "asc" }
       ],
     })
 
