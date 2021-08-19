@@ -1,7 +1,8 @@
 import fp from "fastify-plugin"
+import fastifyJWT from "fastify-jwt"
 
 export default fp(async function(fastify, opts) {
-  fastify.register(require("fastify-jwt"), {
+  fastify.register(fastifyJWT, {
     secret: "asd9c48f9g74yrt7h",
     cookie: {
       cookieName: "token",

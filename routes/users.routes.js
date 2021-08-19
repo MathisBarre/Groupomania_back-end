@@ -1,13 +1,14 @@
 import { hashSync } from "bcrypt"
-import dayjs from "dayjs"
-import "dayjs/locale/fr"
+import dayjs from 'dayjs'
+
+// import "dayjs/locale/fr"
 
 export default async function (fastify, opts) {
   fastify.get("/users", { preValidation: [fastify.authenticate] }, async function getAllUsers(request, reply) {
     let users = await fastify.prisma.user.findMany()
 
     users = users.map((user) => {
-      user.date_creation_fr = dayjs(user.date_creation).locale("fr").format("DD MMMM YYYY - HH:mm")
+      user.date_creation_fr = dayjs(user.date_creation).format("DD MMMM YYYY - HH:mm")
       return user
     })
 

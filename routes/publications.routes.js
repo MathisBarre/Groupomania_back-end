@@ -1,5 +1,4 @@
-import dayjs from "dayjs"
-import "dayjs/locale/fr"
+import dayjs from 'dayjs'
 
 export default async function (fastify, opts) {
   fastify.get("/publications", { preValidation: [fastify.authenticate] }, async function getAllPublications(request, reply) {
@@ -16,7 +15,7 @@ export default async function (fastify, opts) {
     })
 
     allPublication = allPublication.map((publication) => {
-      publication.date_creation_fr = dayjs(publication.date_creation).locale("fr").format("DD MMMM YYYY [à] HH:mm")
+      publication.date_creation_fr = dayjs(publication.date_creation).format("DD MMMM YYYY [à] HH:mm")
       return publication
     })
 

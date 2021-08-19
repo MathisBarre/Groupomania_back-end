@@ -1,5 +1,5 @@
-import dayjs from "dayjs"
-import "dayjs/locale/fr"
+import dayjs from 'dayjs'
+// import "dayjs/locale/fr.js?"
 
 export default async function (fastify, opts) {
   fastify.get("/comments/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
@@ -26,7 +26,7 @@ export default async function (fastify, opts) {
     })
 
     allCommentsFromOnePublication = allCommentsFromOnePublication.map((comment) => {
-      comment.date_creation_fr = dayjs(comment.date_creation).locale("fr").format("DD MMMM YYYY [à] HH:mm")
+      comment.date_creation_fr = dayjs(comment.date_creation).format("DD MMMM YYYY [à] HH:mm")
       return comment
     })
 

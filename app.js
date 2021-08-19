@@ -1,17 +1,20 @@
-import path from "path"
+import path, { dirname } from "path"
+import { fileURLToPath } from "url"
 import AutoLoad from "fastify-autoload"
+import fastifyCors from "fastify-cors"
+import fastifyCookie from "fastify-cookie"
 
 export default async function (fastify, opts) {
   // Place here your custom code!
-  fastify.register(require("fastify-cors"), {
+  fastify.register(fastifyCors, {
     origin: true,
     credentials: true
   })
 
-  fastify.register(require("fastify-cookie"))
+  fastify.register(fastifyCookie)
 
   // Do not touch the following lines
-
+  const __dirname = dirname(fileURLToPath(import.meta.url));
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application
