@@ -4,7 +4,7 @@ const dayjs = require("dayjs")
 require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/", { preValidation: [fastify.authenticate] }, async function getAllPublications(request, reply) {
+  fastify.get("/publications", { preValidation: [fastify.authenticate] }, async function getAllPublications(request, reply) {
     let allPublication = await fastify.prisma.publication.findMany({
       orderBy: [
         { id: "desc" }
@@ -25,7 +25,7 @@ module.exports = async function (fastify, opts) {
     return allPublication
   })
 
-  fastify.post("/", { preValidation: [fastify.authenticate] }, async function createOnePublication(request, reply) {
+  fastify.post("/publications", { preValidation: [fastify.authenticate] }, async function createOnePublication(request, reply) {
     const newUser = await fastify.prisma.publication.create({
       data: {
         title: request.body.title,

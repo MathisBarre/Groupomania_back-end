@@ -4,7 +4,7 @@ const dayjs = require("dayjs")
 require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
+  fastify.get("/comments/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
     
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({
       where : {
@@ -35,7 +35,7 @@ module.exports = async function (fastify, opts) {
     return allCommentsFromOnePublication
   })
 
-  fastify.post("/", { preValidation: [fastify.authenticate] }, async function createOneComment(request, reply) {
+  fastify.post("/comments", { preValidation: [fastify.authenticate] }, async function createOneComment(request, reply) {
     const newComment = await fastify.prisma.comment.create({
       data: {
         content: request.body.comment,
@@ -46,4 +46,4 @@ module.exports = async function (fastify, opts) {
 
     return newComment
   })
-}
+  }

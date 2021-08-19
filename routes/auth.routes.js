@@ -3,7 +3,7 @@
 const bcrypt = require("bcrypt")
 
 module.exports = async function (fastify, opts) {
-  fastify.post("/login", async function(request, reply) {
+  fastify.post("/auth/login", async function(request, reply) {
       const { email, password } = request.body
 
       const user = await fastify.prisma.user.findUnique({
@@ -49,7 +49,7 @@ module.exports = async function (fastify, opts) {
         })
   })
 
-  fastify.post("/logout", async function(request, reply) {
+  fastify.post("/auth/logout", async function(request, reply) {
     reply.clearCookie('token', {
       domain: "localhost",
       path: "/",

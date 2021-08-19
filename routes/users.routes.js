@@ -5,7 +5,7 @@ const dayjs = require("dayjs")
 require("dayjs/locale/fr")
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/", { preValidation: [fastify.authenticate] }, async function getAllUsers(request, reply) {
+  fastify.get("/users", { preValidation: [fastify.authenticate] }, async function getAllUsers(request, reply) {
     let users = await fastify.prisma.user.findMany()
 
     users = users.map((user) => {
@@ -16,7 +16,7 @@ module.exports = async function (fastify, opts) {
     return users
   })
 
-  fastify.get("/:userId", { preValidation: [fastify.authenticate] }, async function getOneUser(request, reply) {
+  fastify.get("/users/:userId", { preValidation: [fastify.authenticate] }, async function getOneUser(request, reply) {
     const requestUserId = parseInt(request.params.userId, 10)
     const trueUserId = parseInt(fastify.jwt.decode(request.cookies.token).userId, 10)
 
@@ -34,7 +34,7 @@ module.exports = async function (fastify, opts) {
     }
   })
 
-  fastify.post("/", async function createOneUser(request, reply) {
+  fastify.post("/users", async function createOneUser(request, reply) {
     const { email, display_name, password } = request.body
 
     const saltRounds = 10;
@@ -79,5 +79,25 @@ module.exports = async function (fastify, opts) {
         role: newUser.role,
         profileImageUrl: newUser.profile_image_url
       })
+  })
+
+  fastify.patch("/users", { preValidation: [fastify.authenticate] }, async function updateOneUser(request, reply) {
+    const { userId } = fastify.jwt.decode(request.cookies.token)
+    const { email, display_name, profile_image_url } = request.body
+
+    const updatedUser = await fastify.prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        email: email,
+        display_name: display_name,
+        profile_image_url: profile_image_url
+      }
+    })
+
+    console.log(updatedUser)
+
+    return { message: "Update succeed" }
   })
 }
