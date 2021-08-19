@@ -4,6 +4,7 @@ export default async function(fastify) {
   fastify.route({
     method: "GET",
     url: "/comments/:publicationId",
+    schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
@@ -38,3 +39,41 @@ export default async function(fastify) {
     return allCommentsFromOnePublication
   }
 }
+
+const documentation = {
+  tags: ["Comments"],
+  summary: "Get all comments",
+  description: "Get all comments",
+}
+
+const params = {
+  type: "object",
+  properties: {
+    publicationId: { type: "number" }
+  }
+}
+
+const response = {
+  200: {
+    type: "array",
+    items: {
+      type: "object",
+      properties: {
+        id: { type: "number" },
+        content: { type: "string" },
+        publication_id: { type: "number" },
+        author_id: { type: "string" },
+        date_creation_fr: { type: "string" },
+        user: {
+          type: "object",
+          properties: {
+            display_name: { type: "string"},
+            profile_image_url: { type: "string" }
+          }
+        }
+      }
+    }
+  }
+}
+
+const schema = { ...documentation, params, response }
