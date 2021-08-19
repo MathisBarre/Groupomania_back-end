@@ -1,9 +1,14 @@
 import dayjs from 'dayjs'
-// import "dayjs/locale/fr.js?"
 
-export default async function (fastify, opts) {
-  fastify.get("/comments/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
-    
+export default async function(fastify) {
+  fastify.route({
+    method: "GET",
+    url: "/comments/:publicationId",
+    preValidation: [fastify.authenticate],
+    handler: handler
+  })
+
+  async function handler(request, reply) {
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({
       where : {
         publication_id: parseInt(request.params.publicationId, 10)
@@ -31,17 +36,5 @@ export default async function (fastify, opts) {
     })
 
     return allCommentsFromOnePublication
-  })
-
-  fastify.post("/comments", { preValidation: [fastify.authenticate] }, async function createOneComment(request, reply) {
-    const newComment = await fastify.prisma.comment.create({
-      data: {
-        content: request.body.comment,
-        publication_id: request.body.publicationId,
-        author_id: fastify.jwt.decode(request.cookies.token).userId
-      }
-    })
-
-    return newComment
-  })
   }
+}
