@@ -1,16 +1,16 @@
-import fp from "fastify-plugin"
-import fastifyJWT from "fastify-jwt"
+import fp from 'fastify-plugin'
+import fastifyJWT from 'fastify-jwt'
 
-export default fp(async function(fastify, opts) {
+export default fp(async function (fastify, opts) {
   fastify.register(fastifyJWT, {
-    secret: "asd9c48f9g74yrt7h",
+    secret: 'asd9c48f9g74yrt7h',
     cookie: {
-      cookieName: "token",
+      cookieName: 'token',
       signed: false
     }
   })
 
-  fastify.decorate("authenticate", async function(request, reply) {
+  fastify.decorate('authenticate', async function (request, reply) {
     try {
       await request.jwtVerify()
     } catch (err) {

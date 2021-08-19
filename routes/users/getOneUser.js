@@ -1,18 +1,18 @@
-export default async function(fastify) {
+export default async function (fastify) {
   fastify.route({
-    method: "GET",
-    url: "/users/:userId",
+    method: 'GET',
+    url: '/users/:userId',
     preValidation: [fastify.authenticate],
     handler: handler
   })
 
-  async function handler() {
+  async function handler (request) {
     const requestUserId = parseInt(request.params.userId, 10)
     const trueUserId = parseInt(fastify.jwt.decode(request.cookies.token).userId, 10)
 
-    if ( requestUserId !== trueUserId ) throw fastify.httpErrors.unauthorized()
+    if (requestUserId !== trueUserId) throw fastify.httpErrors.unauthorized()
 
-    let user = await fastify.prisma.user.findUnique({
+    const user = await fastify.prisma.user.findUnique({
       where: {
         id: requestUserId
       }
@@ -20,7 +20,7 @@ export default async function(fastify) {
 
     return {
       displayName: user.display_name,
-      email: user.email,
+      email: user.email
     }
   }
 }

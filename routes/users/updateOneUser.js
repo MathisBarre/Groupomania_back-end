@@ -1,14 +1,14 @@
-export default async function(fastify) {
+export default async function (fastify) {
   fastify.route({
-    method: "PATCH",
-    url: "/users",
+    method: 'PATCH',
+    url: '/users',
     preValidation: [fastify.authenticate],
     handler: handler
   })
 
-  async function handler(request) {
+  async function handler (request) {
     const { userId } = fastify.jwt.decode(request.cookies.token)
-    const { email, display_name, profile_image_url } = request.body
+    const { email, display_name: displayName, profile_image_url: profileImageUrl } = request.body
 
     const updatedUser = await fastify.prisma.user.update({
       where: {
@@ -16,13 +16,13 @@ export default async function(fastify) {
       },
       data: {
         email: email,
-        display_name: display_name,
-        profile_image_url: profile_image_url
+        display_name: displayName,
+        profile_image_url: profileImageUrl
       }
     })
 
     console.log(updatedUser)
 
-    return { message: "Update succeed" }
+    return { message: 'Update succeed' }
   }
 }

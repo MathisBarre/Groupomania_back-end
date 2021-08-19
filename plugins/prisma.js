@@ -1,6 +1,6 @@
-import fp from "fastify-plugin"
-import Prisma from '@prisma/client';
-const { PrismaClient } = Prisma;
+import fp from 'fastify-plugin'
+import Prisma from '@prisma/client'
+const { PrismaClient } = Prisma
 
 export default fp(async (fastify, opts) => {
   const prisma = new PrismaClient()

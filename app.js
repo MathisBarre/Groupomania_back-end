@@ -1,9 +1,9 @@
-import path, { dirname } from "path"
-import { fileURLToPath } from "url"
-import AutoLoad from "fastify-autoload"
-import fastifyCors from "fastify-cors"
-import fastifyCookie from "fastify-cookie"
-import fastifySwagger from "fastify-swagger"
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+import AutoLoad from 'fastify-autoload'
+import fastifyCors from 'fastify-cors'
+import fastifyCookie from 'fastify-cookie'
+import fastifySwagger from 'fastify-swagger'
 
 export default async function (fastify, opts) {
   // Place here your custom code!
@@ -50,19 +50,19 @@ export default async function (fastify, opts) {
   })
 
   // Do not touch the following lines
-  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const __dirname = dirname(fileURLToPath(import.meta.url))
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application
   fastify.register(AutoLoad, {
-    dir: path.join(__dirname, "plugins"),
+    dir: path.join(__dirname, 'plugins'),
     options: Object.assign({}, opts)
   })
 
   // This loads all plugins defined in routes
   // define your routes in one of these
   fastify.register(AutoLoad, {
-    dir: path.join(__dirname, "routes"),
+    dir: path.join(__dirname, 'routes'),
     dirNameRoutePrefix: false,
     options: Object.assign({}, opts)
   })

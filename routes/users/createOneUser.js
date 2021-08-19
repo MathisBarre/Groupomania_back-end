@@ -1,22 +1,22 @@
-import { hashSync } from "bcrypt"
+import { hashSync } from 'bcrypt'
 
-export default async function(fastify) {
+export default async function (fastify) {
   fastify.route({
-    method: "POST",
-    url: "/users",
+    method: 'POST',
+    url: '/users',
     handler: handler
   })
 
-  async function handler(request, reply) {
-    const { email, display_name, password } = request.body
+  async function handler (request, reply) {
+    const { email, display_name: displayName, password } = request.body
 
-    const saltRounds = 10;
-    const hash = hashSync(password, saltRounds);
+    const saltRounds = 10
+    const hash = hashSync(password, saltRounds)
 
     const newUser = await fastify.prisma.user.create({
       data: {
         email: email,
-        display_name: display_name,
+        display_name: displayName,
         password: hash
       }
     })
@@ -32,16 +32,16 @@ export default async function(fastify) {
     }
 
     reply
-      .setCookie("token", token, {
-        domain: "localhost",
-        path: "/",
+      .setCookie('token', token, {
+        domain: 'localhost',
+        path: '/',
         secure: true,
         httpOnly: true,
         sameSite: true
       })
-      .setCookie("connectedUser", JSON.stringify(returnedUser), {
-        domain: "localhost",
-        path: "/",
+      .setCookie('connectedUser', JSON.stringify(returnedUser), {
+        domain: 'localhost',
+        path: '/',
         secure: true,
         httpOnly: false,
         sameSite: true

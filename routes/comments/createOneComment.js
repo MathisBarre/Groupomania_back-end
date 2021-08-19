@@ -1,13 +1,13 @@
-export default async function(fastify) {
+export default async function (fastify) {
   fastify.route({
-    method: "POST",
-    url: "/comments",
+    method: 'POST',
+    url: '/comments',
     schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
 
-  async function handler(request, reply) {
+  async function handler (request, reply) {
     const { comment, publicationId } = request.body
     const { userId } = fastify.jwt.decode(request.cookies.token)
 
@@ -19,29 +19,29 @@ export default async function(fastify) {
       }
     })
 
-    return { message: "Comment added successfully !"}
+    return { message: 'Comment added successfully !' }
   }
 }
 
 const documentation = {
-  tags: ["Comments"],
-  summary: "Create one comment",
-  description: "Create one comment by providing the publication ID",
+  tags: ['Comments'],
+  summary: 'Create one comment',
+  description: 'Create one comment by providing the publication ID'
 }
 
 const body = {
-  type: "object",
+  type: 'object',
   properties: {
-    comment: { type : "string" },
-    publicationId: { type: "number" }
+    comment: { type: 'string' },
+    publicationId: { type: 'number' }
   }
 }
 
 const response = {
   200: {
-    type: "object",
+    type: 'object',
     properties: {
-      message: { type: "string" }
+      message: { type: 'string' }
     }
   }
 }

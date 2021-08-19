@@ -1,17 +1,17 @@
 import dayjs from 'dayjs'
 
-export default async function(fastify) {
+export default async function (fastify) {
   fastify.route({
-    method: "GET",
-    url: "/comments/:publicationId",
+    method: 'GET',
+    url: '/comments/:publicationId',
     schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
 
-  async function handler(request, reply) {
+  async function handler (request, reply) {
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({
-      where : {
+      where: {
         publication_id: parseInt(request.params.publicationId, 10)
       },
       select: {
@@ -22,17 +22,17 @@ export default async function(fastify) {
         user: {
           select: {
             display_name: true,
-            profile_image_url: true,
+            profile_image_url: true
           }
         }
       },
       orderBy: [
-        { id: "asc" }
-      ],
+        { id: 'asc' }
+      ]
     })
 
     allCommentsFromOnePublication = allCommentsFromOnePublication.map((comment) => {
-      comment.date_creation_fr = dayjs(comment.date_creation).format("DD MMMM YYYY [à] HH:mm")
+      comment.date_creation_fr = dayjs(comment.date_creation).format('DD MMMM YYYY [à] HH:mm')
       return comment
     })
 
@@ -41,34 +41,34 @@ export default async function(fastify) {
 }
 
 const documentation = {
-  tags: ["Comments"],
-  summary: "Get all comments",
-  description: "Get all comments",
+  tags: ['Comments'],
+  summary: 'Get all comments',
+  description: 'Get all comments'
 }
 
 const params = {
-  type: "object",
+  type: 'object',
   properties: {
-    publicationId: { type: "number" }
+    publicationId: { type: 'number' }
   }
 }
 
 const response = {
   200: {
-    type: "array",
+    type: 'array',
     items: {
-      type: "object",
+      type: 'object',
       properties: {
-        id: { type: "number" },
-        content: { type: "string" },
-        publication_id: { type: "number" },
-        author_id: { type: "string" },
-        date_creation_fr: { type: "string" },
+        id: { type: 'number' },
+        content: { type: 'string' },
+        publication_id: { type: 'number' },
+        author_id: { type: 'string' },
+        date_creation_fr: { type: 'string' },
         user: {
-          type: "object",
+          type: 'object',
           properties: {
-            display_name: { type: "string"},
-            profile_image_url: { type: "string" }
+            display_name: { type: 'string' },
+            profile_image_url: { type: 'string' }
           }
         }
       }
