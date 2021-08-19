@@ -54,7 +54,7 @@ export default async function (fastify) {
 const documentation = {
   tags: ['Authentification'],
   summary: 'Connect an user',
-  description: 'Connect an user'
+  description: 'Connect an user by adding http only jwt token cookie and connectedUser cookie'
 }
 
 const body = {
