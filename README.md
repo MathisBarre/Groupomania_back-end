@@ -71,3 +71,7 @@ Puis ouvrez votre navigateur à l'adresse https://localhost:3001
 ### 7. Installer et lancer le front-end
 
 Instruction sur le repository : [https://github.com/MathisBarre/MathisBarre_7_01082021_front-end](https://github.com/MathisBarre/MathisBarre_7_01082021_back-end)
+
+## Notes
+
+Vous pouvez accéder à la documentation en vous rendant sur http://localhost:3001/documentation
