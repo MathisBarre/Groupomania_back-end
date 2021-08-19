@@ -22,7 +22,7 @@ export default async function (fastify, opts) {
         description: 'Documentation for the API of the Groupomania project created by Mathis Barré',
         version: '0.1.0'
       },
-      host: 'localhost',
+      host: 'localhost:3001',
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
