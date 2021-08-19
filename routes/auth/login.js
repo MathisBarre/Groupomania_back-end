@@ -4,6 +4,7 @@ export default async function (fastify) {
   fastify.route({
     method: 'POST',
     url: '/auth/login',
+    schema: schema,
     handler: handler
   })
 
@@ -49,3 +50,32 @@ export default async function (fastify) {
       .send(returnedUser)
   }
 }
+
+const documentation = {
+  tags: ['Authentification'],
+  summary: 'Connect an user',
+  description: 'Connect an user'
+}
+
+const body = {
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+    password: { type: 'string' }
+  }
+}
+
+const response = {
+  200: {
+    type: 'object',
+    properties: {
+      id: { type: 'number' },
+      displayName: { type: 'string' },
+      email: { type: 'string' },
+      role: { type: 'string' },
+      profileImageUrl: { type: 'string' }
+    }
+  }
+}
+
+const schema = { ...documentation, body, response }
