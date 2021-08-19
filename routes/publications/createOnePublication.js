@@ -2,19 +2,48 @@ export default async function (fastify) {
   fastify.route({
     method: 'POST',
     url: '/publications',
+    schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
 
-  async function handler (request, reply) {
-    const newUser = await fastify.prisma.publication.create({
+  async function handler (request) {
+    const { title, imageUrl, userId } = request.body
+
+    await fastify.prisma.publication.create({
       data: {
-        title: request.body.title,
-        image_url: request.body.imageUrl,
-        author_id: request.user.userId
+        title: title,
+        image_url: imageUrl,
+        author_id: userId
       }
     })
 
-    return newUser
+    return { message: 'Publication successfully created' }
   }
 }
+
+const documentation = {
+  tags: ['Publications'],
+  summary: 'Create a publication',
+  description: 'Create a publication'
+}
+
+const body = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    imageUrl: { type: 'string' },
+    userId: { type: 'string' }
+  }
+}
+
+const response = {
+  200: {
+    type: 'object',
+    properties: {
+      message: { type: 'string' }
+    }
+  }
+}
+
+const schema = { ...documentation, body, response }
