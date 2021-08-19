@@ -4,6 +4,7 @@ export default async function (fastify) {
   fastify.route({
     method: 'POST',
     url: '/users',
+    schema: schema,
     handler: handler
   })
 
@@ -50,3 +51,33 @@ export default async function (fastify) {
       .send(returnedUser)
   }
 }
+
+const documentation = {
+  tags: ['Users'],
+  summary: 'Create one user',
+  description: 'Create one user'
+}
+
+const body = {
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+    display_name: { type: 'string' },
+    password: { type: 'string' }
+  }
+}
+
+const response = {
+  200: {
+    type: 'object',
+    properties: {
+      id: { type: 'number' },
+      displayName: { type: 'string' },
+      email: { type: 'string' },
+      role: { type: 'string' },
+      profileImageUrl: { type: 'string' }
+    }
+  }
+}
+
+const schema = { ...documentation, response, body }

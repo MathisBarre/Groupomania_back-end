@@ -2,6 +2,7 @@ export default async function (fastify) {
   fastify.route({
     method: 'GET',
     url: '/users/:userId',
+    schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
@@ -24,3 +25,28 @@ export default async function (fastify) {
     }
   }
 }
+
+const documentation = {
+  tags: ['Users'],
+  summary: 'Get one users',
+  description: 'Get one users'
+}
+
+const response = {
+  200: {
+    type: 'object',
+    properties: {
+      id: { type: 'number' },
+      display_name: { type: 'string' },
+      email: { type: 'string' },
+      password: { type: 'string' },
+      profile_image_url: { type: 'string' },
+      role: { type: 'string' },
+      date_creation: { type: 'string' },
+      date_update: { type: 'string' },
+      date_creation_fr: { type: 'string' }
+    }
+  }
+}
+
+const schema = { ...documentation, response }

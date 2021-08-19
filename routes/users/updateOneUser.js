@@ -2,6 +2,7 @@ export default async function (fastify) {
   fastify.route({
     method: 'PATCH',
     url: '/users',
+    schema: schema,
     preValidation: [fastify.authenticate],
     handler: handler
   })
@@ -26,3 +27,29 @@ export default async function (fastify) {
     return { message: 'Update succeed' }
   }
 }
+
+const documentation = {
+  tags: ['Users'],
+  summary: 'Update one user',
+  description: 'Update one user'
+}
+
+const body = {
+  type: 'object',
+  properties: {
+    email: { type: 'string' },
+    display_name: { type: 'string' },
+    profile_image_url: { type: 'string' }
+  }
+}
+
+const response = {
+  200: {
+    type: 'object',
+    properties: {
+      message: { type: 'string' }
+    }
+  }
+}
+
+const schema = { ...documentation, response, body }
