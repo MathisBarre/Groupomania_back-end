@@ -1,9 +1,7 @@
-"use strict"
+import fp from "fastify-plugin"
+import { PrismaClient } from "@prisma/client"
 
-const fp = require("fastify-plugin")
-const { PrismaClient } = require("@prisma/client")
-
-module.exports = fp(async (fastify, opts) => {
+export default fp(async (fastify, opts) => {
   const prisma = new PrismaClient()
   await prisma.$connect()
 

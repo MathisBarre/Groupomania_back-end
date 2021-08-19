@@ -1,9 +1,7 @@
-"use strict"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
 
-const dayjs = require("dayjs")
-require("dayjs/locale/fr")
-
-module.exports = async function (fastify, opts) {
+export default async function (fastify, opts) {
   fastify.get("/publications", { preValidation: [fastify.authenticate] }, async function getAllPublications(request, reply) {
     let allPublication = await fastify.prisma.publication.findMany({
       orderBy: [

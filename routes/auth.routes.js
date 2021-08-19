@@ -1,8 +1,6 @@
-"use strict"
+import { compareSync } from "bcrypt"
 
-const bcrypt = require("bcrypt")
-
-module.exports = async function (fastify, opts) {
+export default async function (fastify, opts) {
   fastify.post("/auth/login", async function(request, reply) {
       const { email, password } = request.body
 
@@ -16,7 +14,7 @@ module.exports = async function (fastify, opts) {
 
       const token = await reply.jwtSign({ role: user.role, userId: user.id })
     
-      if (!bcrypt.compareSync(password, user.password)) throw fastify.httpErrors.unauthorized("Incorrect password")
+      if (!compareSync(password, user.password)) throw fastify.httpErrors.unauthorized("Incorrect password")
 
       reply
         .setCookie("token", token, {

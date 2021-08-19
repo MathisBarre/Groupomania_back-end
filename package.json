@@ -2,6 +2,7 @@
   "name": "oc_devweb_7_groupomania_backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "fastify start -l info app.js -p 3001",

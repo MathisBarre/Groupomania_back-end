@@ -1,9 +1,7 @@
-"use strict"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
 
-const dayjs = require("dayjs")
-require("dayjs/locale/fr")
-
-module.exports = async function (fastify, opts) {
+export default async function (fastify, opts) {
   fastify.get("/comments/:publicationId", { preValidation: [fastify.authenticate] }, async function getAllCommentsFromOnePublication(request, reply) {
     
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({

@@ -1,10 +1,8 @@
-"use strict"
+import { hashSync } from "bcrypt"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
 
-const bcrypt = require("bcrypt")
-const dayjs = require("dayjs")
-require("dayjs/locale/fr")
-
-module.exports = async function (fastify, opts) {
+export default async function (fastify, opts) {
   fastify.get("/users", { preValidation: [fastify.authenticate] }, async function getAllUsers(request, reply) {
     let users = await fastify.prisma.user.findMany()
 
@@ -38,7 +36,7 @@ module.exports = async function (fastify, opts) {
     const { email, display_name, password } = request.body
 
     const saltRounds = 10;
-    const hash = bcrypt.hashSync(password, saltRounds);
+    const hash = hashSync(password, saltRounds);
 
     const newUser = await fastify.prisma.user.create({
       data: {

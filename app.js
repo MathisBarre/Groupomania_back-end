@@ -1,9 +1,7 @@
-"use strict"
+import path from "path"
+import AutoLoad from "fastify-autoload"
 
-const path = require("path")
-const AutoLoad = require("fastify-autoload")
-
-module.exports = async function (fastify, opts) {
+export default async function (fastify, opts) {
   // Place here your custom code!
   fastify.register(require("fastify-cors"), {
     origin: true,
