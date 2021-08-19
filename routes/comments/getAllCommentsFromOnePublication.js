@@ -9,7 +9,7 @@ export default async function (fastify) {
     handler: handler
   })
 
-  async function handler (request, reply) {
+  async function handler (request) {
     let allCommentsFromOnePublication = await fastify.prisma.comment.findMany({
       where: {
         publication_id: parseInt(request.params.publicationId, 10)
@@ -42,8 +42,8 @@ export default async function (fastify) {
 
 const documentation = {
   tags: ['Comments'],
-  summary: 'Get all comments',
-  description: 'Get all comments'
+  summary: 'Get all comments from one publication',
+  description: 'Get all comments from one publication'
 }
 
 const params = {
