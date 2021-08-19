@@ -23,21 +23,27 @@ export default async function(fastify) {
   }
 }
 
-const schema = {
-  body: {
+const documentation = {
+  tags: ["Comments"],
+  summary: "Create one comment",
+  description: "Create one comment by providing the publication ID",
+}
+
+const body = {
+  type: "object",
+  properties: {
+    comment: { type : "string" },
+    publicationId: { type: "number" }
+  }
+}
+
+const response = {
+  200: {
     type: "object",
     properties: {
-      comment: { type : "string" },
-      publicationId: { type: "number" }
-    }
-  },
-
-  response: {
-    200: {
-      type: "object",
-      properties: {
-        message: { type: "string" }
-      }
+      message: { type: "string" }
     }
   }
 }
+
+const schema = { ...documentation, body, response }
