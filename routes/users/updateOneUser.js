@@ -7,7 +7,7 @@ export default async function (fastify) {
     handler: handler
   })
 
-  async function handler (request) {
+  async function handler (request, reply) {
     const { userId } = fastify.jwt.decode(request.cookies.token)
     const { email, display_name: displayName, profile_image_url: profileImageUrl } = request.body
 
@@ -22,9 +22,24 @@ export default async function (fastify) {
       }
     })
 
-    console.log(updatedUser)
+    const returnedUser = {
+      id: updatedUser.id,
+      displayName: updatedUser.display_name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      profileImageUrl: updatedUser.profile_image_url
+    }
 
-    return { message: 'Update succeed' }
+    reply
+      .setCookie('connectedUser', JSON.stringify(returnedUser), {
+        domain: 'localhost',
+        path: '/',
+        secure: true,
+        httpOnly: false,
+        sameSite: true
+      })
+      .code(200)
+      .send(returnedUser)
   }
 }
 
@@ -47,7 +62,11 @@ const response = {
   200: {
     type: 'object',
     properties: {
-      message: { type: 'string' }
+      id: { type: 'number' },
+      displayName: { type: 'string' },
+      email: { type: 'string' },
+      role: { type: 'string' },
+      profileImageUrl: { type: 'string' }
     }
   }
 }
