@@ -8,13 +8,14 @@ export default async function (fastify) {
   })
 
   async function handler (request) {
-    const { title, imageUrl, authorId } = request.body
+    const { title, imageUrl } = request.body
+    const { userId } = fastify.jwt.decode(request.cookies.token)
 
     await fastify.prisma.publication.create({
       data: {
         title: title,
         image_url: imageUrl,
-        author_id: authorId
+        author_id: userId
       }
     })
 
