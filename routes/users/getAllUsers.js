@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 export default async function (fastify) {
   fastify.route({
     method: 'GET',
@@ -10,12 +8,7 @@ export default async function (fastify) {
   })
 
   async function handler () {
-    let users = await fastify.prisma.user.findMany()
-
-    users = users.map((user) => {
-      user.date_creation_fr = dayjs(user.date_creation).format('DD MMMM YYYY - HH:mm')
-      return user
-    })
+    const users = await fastify.prisma.user.findMany()
 
     return users
   }
@@ -40,8 +33,7 @@ const response = {
         profile_image_url: { type: 'string' },
         role: { type: 'string' },
         date_creation: { type: 'string' },
-        date_update: { type: 'string' },
-        date_creation_fr: { type: 'string' }
+        date_update: { type: 'string' }
       }
     }
   }

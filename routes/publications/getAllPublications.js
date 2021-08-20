@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 export default async function (fastify) {
   fastify.route({
     method: 'GET',
@@ -10,7 +8,7 @@ export default async function (fastify) {
   })
 
   async function handler () {
-    let allPublication = await fastify.prisma.publication.findMany({
+    const allPublication = await fastify.prisma.publication.findMany({
       orderBy: [
         { id: 'desc' }
       ],
@@ -20,11 +18,6 @@ export default async function (fastify) {
           select: { comment: true }
         }
       }
-    })
-
-    allPublication = allPublication.map((publication) => {
-      publication.date_creation_fr = dayjs(publication.date_creation).format('DD MMMM YYYY [à] HH:mm')
-      return publication
     })
 
     return allPublication
@@ -55,7 +48,6 @@ const response = {
         image_url: { type: 'string' },
         author_id: { type: 'number' },
         date_creation: { type: 'string' },
-        date_creation_fr: { type: 'string' },
         user: {
           type: 'object',
           properties: {

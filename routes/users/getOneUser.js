@@ -43,8 +43,7 @@ const response = {
       profile_image_url: { type: 'string' },
       role: { type: 'string' },
       date_creation: { type: 'string' },
-      date_update: { type: 'string' },
-      date_creation_fr: { type: 'string' }
+      date_update: { type: 'string' }
     }
   }
 }
