@@ -17,6 +17,7 @@ export default async function (fastify) {
         content: true,
         publication_id: true,
         author_id: true,
+        date_creation: true,
         user: {
           select: {
             display_name: true,
@@ -56,6 +57,7 @@ const response = {
         content: { type: 'string' },
         publication_id: { type: 'number' },
         author_id: { type: 'string' },
+        date_creation: { type: 'string' },
         user: {
           type: 'object',
           properties: {
