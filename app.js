@@ -4,6 +4,7 @@ import AutoLoad from 'fastify-autoload'
 import fastifyCors from 'fastify-cors'
 import fastifyCookie from 'fastify-cookie'
 import fastifySwagger from 'fastify-swagger'
+import fastifyEnv from 'fastify-env'
 
 export default async function (fastify, opts) {
   // Place here your custom code!
@@ -13,6 +14,20 @@ export default async function (fastify, opts) {
   })
 
   fastify.register(fastifyCookie)
+
+  const envSchema = {
+    type: 'object',
+    required: ['JWT_SECRET_KEY'],
+    properties: {
+      JWT_SECRET_KEY: { type: 'string', default: '9a5Vx9zdc4eUv9b84tynDu8k4o2p5' }
+    }
+  }
+
+  fastify.register(fastifyEnv, {
+    schema: envSchema,
+    dotenv: true,
+    confKey: 'config'
+  })
 
   fastify.register(fastifySwagger, {
     routePrefix: '/documentation',

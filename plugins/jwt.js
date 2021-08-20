@@ -2,8 +2,10 @@ import fp from 'fastify-plugin'
 import fastifyJWT from 'fastify-jwt'
 
 export default fp(async function (fastify, opts) {
+  console.log(fastify.config.JWT_SECRET_KEY)
+
   fastify.register(fastifyJWT, {
-    secret: 'asd9c48f9g74yrt7h',
+    secret: fastify.config.JWT_SECRET_KEY,
     cookie: {
       cookieName: 'token',
       signed: false
