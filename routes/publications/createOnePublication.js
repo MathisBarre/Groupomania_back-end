@@ -8,13 +8,13 @@ export default async function (fastify) {
   })
 
   async function handler (request) {
-    const { title, imageUrl, userId } = request.body
+    const { title, imageUrl, authorId } = request.body
 
     await fastify.prisma.publication.create({
       data: {
         title: title,
         image_url: imageUrl,
-        author_id: userId
+        author_id: authorId
       }
     })
 
@@ -33,7 +33,7 @@ const body = {
   properties: {
     title: { type: 'string' },
     imageUrl: { type: 'string' },
-    userId: { type: 'string' }
+    authorId: { type: 'number' }
   }
 }
 
